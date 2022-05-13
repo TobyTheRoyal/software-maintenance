@@ -1,0 +1,1055 @@
+\documentclass[10pt, a4paper]{article}
+
+\usepackage{amssymb, amsmath}
+\usepackage[utf8]{inputenc}
+%\usepackage{ngerman}
+%\usepackage[ngerman]{babel}
+\usepackage[english]{babel}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{alltt}
+\usepackage{rotating}
+\usepackage{multirow}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{makecell}
+\usepackage{hyperref}
+\usepackage{indentfirst}
+
+% Diagrams
+\usepackage{tikz}
+\usetikzlibrary{%
+  arrows,%
+  shapes.misc,% wg. rounded rectangle
+  shapes.arrows,%
+  shapes.geometric,% regular polygon
+  chains,%
+  matrix,%
+  positioning,% wg. " of "
+  scopes,%
+  decorations.pathmorphing,% /pgf/decoration/random steps | erste Graphik
+  shadows%
+}
+
+% Trace
+\usepackage{array}   % for \newcolumntype macro
+\newcounter{magicrownumbers} % counts trace statement number
+\def\rownumber{\stepcounter{magicrownumbers}\arabic{magicrownumbers}} % print number
+\newcolumntype{L}{>{(}l<{.}}
+\newcolumntype{V}{>{\ttfamily}l<{)\textsuperscript{\rownumber},}}
+\newcolumntype{P}{>{\it}l}
+\newcolumntype{N}{r<{\rownumber}}
+\newcolumntype{C}{>{\ttfamily\-}p{10cm}}
+\newcolumntype{R}{r<{\textsuperscript{\rownumber}}}
+\def\nodecounter#1{\tkmark{#1\twodigits{\arabic{magicrownumbers}}}}
+%\newcommand*{\tknode}[1]{\tikz[overlay, remember picture]\node [inner sep=0, outer sep=0] (#1) {};}
+\newcommand*{\tkmark}[1]{\tikz[overlay, remember picture]\coordinate (#1);}
+\newcommand\twodigits[1]{%
+   \ifnum#1<10 0#1\else #1\fi
+}
+
+\pagestyle{fancy}
+\setlength{\headheight}{12.4pt}
+\setlength{\headsep}{1.5\headheight}
+
+% Übungsblatt-Nummer eintragen
+\newcommand{\AssignmentNumber}{1}
+
+% ݇Gruppen-Nummer eintragen
+\newcommand{\GroupNumber}{12}
+
+% 1. Person eintragen
+\newcommand{\FirstAuthor}{Hamedl}
+\newcommand{\FirstAuthorFirstName}{Tobias}
+\newcommand{\FirstAuthorMatnum}{11808141}
+
+% 2. Person eintragen
+\newcommand{\SecAuthor}{Joao}
+\newcommand{\SecAuthorFirstName}{Gerson Miguel}
+\newcommand{\SecAuthorMatnum}{11804202}
+
+% 3. Person eintragen
+\newcommand{\ThirdAuthor}{Khalil}
+\newcommand{\ThirdAuthorFirstName}{Mahmoud}
+\newcommand{\ThirdAuthorMatnum}{01651551}
+
+%4. Person eintragen
+\newcommand{\FourthAuthor}{Piber}
+\newcommand{\FourthAuthorFirstName}{Constantin}
+\newcommand{\FourthAuthorMatnum}{11921514}
+
+\newcommand{\AuthorFront}{{\normalsize
+\begin{tabular}{|c|c|c|} \hline
+\textbf{Nachname} & \textbf{Vorname}       & \textbf{Matrikelnummer} \\ \hline \hline
+\FirstAuthor      & \FirstAuthorFirstName  & \FirstAuthorMatnum      \\ \hline
+\SecAuthor        & \SecAuthorFirstName    & \SecAuthorMatnum        \\ \hline
+\ThirdAuthor      & \ThirdAuthorFirstName  & \ThirdAuthorMatnum      \\ \hline
+\FourthAuthor     & \FourthAuthorFirstName & \FourthAuthorMatnum     \\ \hline
+\end{tabular}}}
+
+\author{\AuthorFront}
+\newcommand{\Author}{\FirstAuthorMatnum, \SecAuthorMatnum,
+                     \ThirdAuthorMatnum, \FourthAuthorMatnum}
+
+\date{} % Kein Datum angegeben
+\fancyfoot{} % Seitenzahl unten nicht anzeigen
+
+\lhead{Blatt \AssignmentNumber}
+\chead{\Author}
+\rhead{Seite \thepage}
+
+\title{Software Maintenance SS 19/20, Assignment \AssignmentNumber}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcounter{ale}
+\newcommand{\abc}{\item[\alph{ale})]\stepcounter{ale}}
+\newenvironment{liste}{\begin{itemize}}{\end{itemize}}
+\newcommand{\aliste}{\begin{liste} \setcounter{ale}{1}}
+\newcommand{\zliste}{\end{liste}}
+\newenvironment{abcliste}{\aliste}{\zliste}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\maketitle
+\begin{center}
+ GROUP \textless \GroupNumber \textgreater
+\end{center}
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|l|c|c|c|c|}
+\hline
+\multicolumn{3}{|c|}{\textbf{Assignment}} & \textbf{max. points} & \textbf{received points} & \textbf{max. points} & \textbf{received points}  \\[2ex]
+\hline
+\multirow{10}{*}{Theory}&2.2.1&a & 2,5 &   & \multirow{3}{*}{} & \\[2ex] \cline{2-5}
+&&b & 1,0 &  &  3,5  & \\[2ex] \cline{2-7}
+&2.2.2& a & 0,5 & &  & \\[2ex] \cline{2-5}
+&& b & 1,0 & &  1,5  & \\[2ex] \cline{2-7}
+&2.2.3& a & 0,5 & &  & \\[2ex]\cline{2-5}
+&& b & 0,75 & &  & \\[2ex]\cline{2-5}
+&& c & 0,75 & & 2,0 & \\[2ex]\cline{2-7}
+&2.2.4& a & 2,0 & &  & \\[2ex]\cline{2-5}
+&& b & 1,0 & & 3,0 & \\[2ex]\cline{2-7}
+\hline
+\multirow{3}{*}{Programming}&Static slicer& & 9,0 &  & \multirow{3}{*}{10} & \\[2ex] \cline{2-5}
+&Bug database& & 1,0 &  &  & \\[2ex] \cline{2-5}
+\hline
+\multicolumn{5}{|l|}{Total points}& 20 &\\[2ex]
+\hline
+\end{tabular}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\section{Theoretical Part}
+
+\iffalse
+\begin{enumerate}
+ \item Format example:
+%\vspace{10pt}
+\begin{table}[htbp]
+	\centering
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline
+n & $PRE(n)$ & $REF(n)$ & $DEF(n)$ & $R_{(9,\{z\})}(n)$ & $S_{(9,\{z\})}^0(n)$ & $INFL(n)$   & $B$ & $S_{(9,\{z\})}^1(n)$\\ \hline
+2 & - & -         & \{x\}     & \{y, z\}      &  x  &   &     & x \\ \hline
+3 & 2 & \{y\}     & -         & \{x, y, z\}   &     & 5 & x   & x \\ \hline
+& & & & & & & & \\ \hline
+		\end{tabular}
+\end{table}
+\begin{table}[htbp]
+    \centering
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+n & \begin{turn}{90}$PRE(n)$ \end{turn} & \begin{turn}{90}$REF(n)$
+\end{turn}& \begin{turn}{90}$DEF(n)$ \end{turn}&
+\begin{turn}{90}$R_{(9,\{z\})}(n)$ \end{turn}&
+\begin{turn}{90}$S_{(9,\{z\})}^0(n)$ \end{turn} &
+\begin{turn}{90}$INFL(n)$ \end{turn}  & $B$ &
+\begin{turn}{90}$S_{(9,\{z\})}^1(n)$ \end{turn} &
+\begin{turn}{90}$R_{(9,\{z\})}(n)$\end{turn}&
+\begin{turn}{90}$S_{(9,\{z\})}^0(n)$ \end{turn} &
+\begin{turn}{90}$R_{(9,\{z\})}(n)$\end{turn}&
+\begin{turn}{90}$S_{(9,\{z\})}^0(n)$ \end{turn} &
+\begin{turn}{90}$R_{(9,\{z\})}(n)$\end{turn}&
+\begin{turn}{90} $S_{(9,\{z\})}^0(n)$ \end{turn}\\ \hline
+2 & - &\{result\} & \{x,y\}  & \{result,x,y,z\} &x  &  21-25  &  x &
+\{x,y\} & x & \{x\}& x& \{x,y,z,w\} & x & x \\ \hline
+3 & 2 & \{y\}     & -         & \{x, y, z\}   &     & 5 & x   & x & & &
+& & &\\ \hline
+& & & & & & & & & & & & & &\\ \hline
+        \end{tabular}
+\end{table} 
+\end{enumerate}
+\pagebreak
+\fi
+
+
+%%%%%%%% solution - theoretical part %%%%%%%%%
+
+
+
+%%%% Tikz stuff
+\tikzset{
+  circ/.style={
+    % The shape:
+    circle,
+    minimum size=6mm,
+    % The rest
+    very thick,draw=black,
+    %fill=white,
+    font=\ttfamily},
+  ell/.style={
+    % The shape:
+    ellipse,
+    %minimum width=6mm,
+    minimum height=6mm,
+    % The rest
+    inner sep=0,
+    draw=black,
+    %fill=white,
+    font=\ttfamily},
+  stmt/.style={
+    % The shape:
+    rectangle,
+    minimum size=6mm,
+    % The rest
+    very thick,draw=black,
+    %fill=white,
+    font=\ttfamily},
+  cond/.style={
+    % The shape:
+    %regular polygon, regular polygon sides=4,
+  	%shape border rotate=45,
+  	%inner sep=0, outer sep=0,
+  	rounded rectangle,
+    minimum size=6mm,
+    % The rest
+    very thick,draw=black,
+    %fill=white,
+    font=\ttfamily},
+  help/.style={
+    minimum size=6mm},
+  %
+  ctrl/.style={->, draw=black, thick},
+  data/.style={->, draw=red, dashed, thick},
+  symm/.style={<->, draw=black!30!blue, dotted, thick},
+  potd/.style={->, draw=black!40!green, dotted, thick},
+  %
+  markF/.style={
+    execute at end node=\space {\Large $\bullet$}},
+  markI/.style={
+    execute at end node=\space {\color{red}\Large $\bullet$}},
+  %
+  setT/.style={
+    draw=green},
+  setX/.style={
+    draw=red},
+  %
+  skip loop/.style={to path={-- ++(0,#1) -| (\tikztotarget)}},
+  fuzzy/.style={decorate,
+    decoration={random steps,segment length=0.5mm,amplitude=0.15pt}},
+}
+
+{
+  \tikzset{circ/.append style={text height=1.5ex,text depth=.25ex}}
+  \tikzset{ell/.append style={text height=1.5ex,text depth=.25ex}}
+  \tikzset{stmt/.append style={text height=1.5ex,text depth=.25ex}}
+  \tikzset{cond/.append style={text height=1.5ex,text depth=.25ex}}
+}
+
+
+
+
+
+
+\subsection{Static Slicing}
+
+\begin{table}[H]
+\centering
+\caption*{\raggedright (a) i. Slice using table algorithm \quad {\ttfamily (20,\{a\})}}
+\begin{tabular}{|c|*8{>{\ttfamily}c|}}
+\hline
+n & $PRE(n)$ & $REF(n)$ & $DEF(n)$ & $R_{(20,\{a\})}(n)$ & $S_{(20,\{a\})}^0(n)$ & $INFL(n)$   & $B$ & $S_{(20,\{a\})}^1(n)$\\ \hline
+2  & -     & b   & a & b   & x &     &   & x \\ \hline
+3  & 2     & a,d & c & a,b &   &     &   &   \\ \hline
+4  & 3,7   & a,c & - & a,b &   & 6,7 & x & x \\ \hline
+6  & 4     & a,b & a & a,b & x &     &   & x \\ \hline
+7  & 6     & a,c & d & a,b &   &     &   &   \\ \hline
+10 & 4     & a,c & - & a   &   & 12  &   &   \\ \hline
+12 & 10    & a   & b & a   &   &     &   &   \\ \hline
+14 & 10,12 & -   & - & a   &   & 16  &   &   \\ \hline
+16 & 14    & c   & c & a   &   &     &   &   \\ \hline
+19 & 14,16 & a,c & d & a   &   &     &   &   \\ \hline
+20 & 19    & a   & - & a   &   &     &   & x \\ \hline
+\end{tabular}
+\caption*{\ttfamily s = \{2,4,6,20\}}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption*{\raggedright (a) ii. Slice using table algorithm \quad {\ttfamily (21,\{d\})}}
+\begin{tabular}{|c|*8{>{\ttfamily}c|}}
+\hline
+n & $PRE(n)$ & $REF(n)$ & $DEF(n)$ & $R_{(21,\{d\})}(n)$ & $S_{(21,\{d\})}^0(n)$ & $INFL(n)$   & $B$ & $S_{(21,\{d\})}^1(n)$\\ \hline
+2  & -     & b   & a & b,d & x &     &   & x \\ \hline
+3  & 2     & a,d & c & a,d & x &     &   & x \\ \hline
+4  & 3,7   & a,c & - & a,c &   & 6,7 &   & x \\ \hline
+6  & 4     & a,b & a & a,c & x &     &   & x \\ \hline
+7  & 6     & a,c & d & a,c &   &     &   &   \\ \hline
+10 & 4     & a,c & - & a,c &   & 12  &   &   \\ \hline
+12 & 10    & a   & b & a,c &   &     &   &   \\ \hline
+14 & 10,12 & -   & - & a,c &   & 16  &   & x \\ \hline
+16 & 14    & c   & c & a,c & x &     &   & x \\ \hline
+19 & 14,16 & a,c & d & a,c & x &     &   & x \\ \hline
+20 & 19    & a   & - & d   &   &     &   &   \\ \hline
+21 & 20    & d   & - & d   &   &     &   & x \\ \hline
+\end{tabular}
+\caption*{\ttfamily s = \{2,3,4,6,14,16,19,21\}}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\caption*{\raggedright (b) Slice using Program Dependence Graph}
+\begin{tikzpicture}[
+  dot/.style={circle, thin, -latex, yshift=4pt, scale=0.6},
+   i/.style={dot, xshift=-3mm, fill=black!25!yellow!60!red},
+  ii/.style={dot, xshift= 3mm, fill=black!20!green}
+]
+  % graph with control dependencies
+  \begin{scope}[
+    every node/.append style={
+      grow=down
+    },
+    every path/.append style={ctrl}
+  ]
+    \node [ell] (entry) {Entry}
+      [sibling distance=2cm]
+      child { node [ell,yshift=9mm]  (stmt02) {2. a = b * 2} }
+      child { node [ell,xshift=-9mm] (stmt03) {3. c = a + d} }
+      child { node [ell,yshift=-9mm,xshift=-14mm] (stmt04) {4. while(a < c+5)}
+        [sibling distance=36mm]
+        child { node [ell] (stmt06) {6. a = a + b} }
+        child { node [ell] (stmt07) {7. d = c - a} }
+      }
+      child { node [ell,yshift=-18mm,xshift=16mm] (stmt10) {10. if(a > c)}
+        [sibling distance=4cm]
+        child { node [ell] (stmt12) {12. b = a + 2} }
+        child { node [ell] (stmt16) {16. c = c - 10} }
+      }
+      child { node [ell,yshift=-9mm,xshift=14mm] (stmt19) {19. d = a + c} }
+      child { node [ell,xshift=9mm]  (stmt20) {20. write(a)} }
+      child { node [ell,yshift=9mm]  (stmt21) {21. write(d)} };
+  \end{scope}
+  
+  % data dependencies
+  \begin{scope}
+    % straight
+    \draw [data] (stmt02) -- (stmt03);
+    \draw [data] (stmt03) -- (stmt04);
+    \draw [data] (stmt06) -- (stmt07);
+    \draw [data] (stmt06.100) -- (stmt04.200);
+    \draw [data] (stmt06.320) -- (stmt12.180);
+    
+    % bent
+    \draw [data] (stmt02.0) to [bend left]  (stmt07.6);
+    \draw [data] (stmt02.0) to [bend left]  (stmt10.160);
+    \draw [data] (stmt02.0) to [bend left]  (stmt19.170);
+    \draw [data] (stmt02.10) to [bend left] (stmt20.160);
+    
+    \draw [data] (stmt03.0) to [bend left]  (stmt07.6);
+    \draw [data] (stmt03.0) to [bend left]  (stmt10.160);
+    \draw [data] (stmt03.0) to [bend left]  (stmt19.170);
+    
+    \draw [data] (stmt06.10) to [bend left] (stmt10.175);
+    
+    \draw [data] (stmt19.160) to [bend left](stmt21.180);
+    
+    \draw [data] (stmt02.190) to[bend right](stmt04.180);
+    \draw [data] (stmt02.190) to[bend right](stmt06.160);
+    
+    %\draw [data] (stmt02.190) to[bend right]([xshift=-2mm]stmt06.180) to [bend right] (stmt12.190);
+    \draw [data] (stmt02.190) .. controls ([xshift=-7mm,yshift=-10mm]stmt06.180) .. (stmt12.180);
+    
+    %\draw [data] (stmt03.190) to[bend right]([xshift=-1mm]stmt06.180) to [bend right] (stmt16.190);
+    \draw [data] (stmt03.185) .. controls ([xshift=-12mm,yshift=-15mm]stmt06.180) and
+      ([xshift=-5mm,yshift=-25mm]stmt06.180) .. (stmt16.190);
+      
+    \draw [data] (stmt06.320) .. controls ([xshift=10mm,yshift=-18mm]stmt12.270) and
+      ([xshift=41mm,yshift=-18mm]stmt16.270)  .. (stmt20.345);
+  \end{scope}
+  
+  % slice dots
+  \begin{scope}
+    \node [i,  below=0mm of entry ] {};
+    \node [ii, below=0mm of entry ] {};
+    \node [i,  below=0mm of stmt02] {};
+    \node [ii, below=0mm of stmt02] {};
+    \node [ii, below=0mm of stmt03] {};
+    \node [i,  below=0mm of stmt04] {};
+    \node [ii, below=0mm of stmt04] {};
+    \node [i,  below=0mm of stmt06] {};
+    \node [ii, below=0mm of stmt06] {};
+    \node [ii, below=0mm of stmt10] {};
+    \node [ii, below=0mm of stmt16] {};
+    \node [i,  below=0mm of stmt20] {};
+    \node [ii, below=0mm of stmt21] {};
+  \end{scope}
+  
+  % legend
+  \begin{scope}
+    \node [font=\ttfamily, below=65mm of entry]  (legendi)
+      { i. (20, \{a\}) \quad s = \{2,4,6,20\}};
+    \node [font=\ttfamily, below=0mm of legendi] (legendii)
+      {ii. (21, \{d\}) \quad s = \{2,3,4,6,10,14,16,19,21\}};
+    \node [i,  left=1mm of legendi, xshift= 3mm, yshift=-4pt]  {};
+    \node [ii, left=1mm of legendii, xshift=-3mm, yshift=-4pt] {};
+  \end{scope}
+
+\end{tikzpicture}
+\end{figure}
+
+\pagebreak
+
+
+
+\subsection{Control Flow Graph}
+
+\begin{figure}[H]
+\centering
+\caption*{\raggedright (a)}
+\begin{tikzpicture}[
+  /pgf/every decoration/.style={/tikz/sharp corners},
+]
+  \draw[start chain=1 going below,
+    node distance=4mm,
+    every node/.append style={on chain=1},
+  ]
+      node [circ] (start)   {}
+      node [stmt] (stmt1)   {a = b * 2}
+      node [stmt] (stmt2)   {c = a + d}
+      node [cond] (while)   {while (a < c + 5)}
+      node [stmt] (stmt3)   {a = a + b}
+      node [stmt] (stmt4)   {d = c - a}
+      node [cond] (if)      {if (a > c)}
+      node [help] (ifblock) {\-\ } % helper
+      node [stmt] (stmt7)   {d = a + c}
+      node [stmt] (stmt8)   {write(a)}
+      node [stmt] (stmt9)   {write(d)}
+      node [circ] (end)     {};
+  \node [stmt, left=7mm of ifblock]  (stmt5) {b = a + 2};
+  \node [stmt, right=7mm of ifblock] (stmt6) {c = c - 10};
+  % helper
+  \node [left=0mm of while]  (lwhile) {};
+  \node [right=0mm of while] (rwhile) {};
+  \node [above=2mm of stmt7] (ifafter) {};
+  
+  \draw [->] (start) -- (stmt1);
+  \draw [->] (stmt1) -- (stmt2);
+  \draw [->] (stmt2) -- (while);
+  \draw [->] (while) -- node [right] {True} (stmt3);
+  \draw [->] (stmt3) -- (stmt4);
+  \draw [->] (stmt4.east) -| (rwhile.east) -- (while.east);
+  \draw [->] (while.west) -- (lwhile.west) |-
+    node[left, pos=0.25] {False} (if.175);
+  \draw [->] (if.355) -| node [right] {False} (stmt6.north);
+  \draw [->] (if.185) -| node [left] {True} (stmt5.north);
+  \draw [  ] (stmt6.south) |- (ifafter.south);
+  \draw [  ] (stmt5.south) |- (ifafter.south);
+  \draw [->] (ifafter) -- (stmt7);
+  \draw [->] (stmt7) -- (stmt8);
+  \draw [->] (stmt8) -- (stmt9);
+  \draw [->] (stmt9) -- (end);
+  
+\end{tikzpicture}
+\end{figure}
+\vspace{-\floatsep}
+
+\begin{figure}[H]
+\centering
+\caption*{\raggedright (b)}
+\begin{tikzpicture}[
+  /pgf/every decoration/.style={/tikz/sharp corners},
+]
+  \draw[start chain=1 going below,
+    node distance=4mm,
+    every node/.append style={on chain=1},
+  ]
+      node [circ] (start)   {}
+      node [stmt] (stmt1)   {a = m * o}
+      node [stmt] (stmt2)   {s = m + a}
+      node [cond] (if1)      {if (o < i)}
+      node [help] (ifblock1){\-\ } % helper
+      node [help] (ifblock2){\-\ } % helper
+      node [help] (ifblock3){\-\ } % helper
+      node [stmt] (stmt3)   {write(s)}
+      node [stmt] (stmt4)   {write(m)}
+      node [circ] (end)     {};
+  % if true
+  \draw[start chain=2 going below,
+  	node distance=4mm,
+  	every node/.append style={on chain=2}
+  ]
+      node [cond, left=25mm of ifblock1, anchor=center]  (if2) {if (x == 0)}
+      node [help] (if2block1) {\-\ } % helper
+      node [help] (if2block2) {\-\ }; % helper
+  \node [stmt, left=12mm of if2block1, anchor=center]  (stmt1t) {x = x + 1};
+  \node [stmt, left=12mm of if2block2, anchor=center]  (stmt2t) {s = o * 5};
+  \node [stmt, right=12mm of if2block1, anchor=center] (stmt3t) {x = 10};
+  % if false
+  \draw[start chain=3 going below,
+  	node distance=4mm,
+  	every node/.append style={on chain=3}
+  ]
+  	  node [stmt, right=25mm of ifblock1, anchor=center] (stmt1f) {o = o + m}
+  	  node [cond] (while)   {while (m <= a)}
+  	  node [stmt] (stmt2f)  {m = x * s};
+  % helper
+  \node [left=0mm of while]  (lwhile) {};
+  \node [right=0mm of while] (rwhile) {};
+  \node [above=2mm of stmt3] (ifafter) {};
+  
+  \draw [->] (start) -- (stmt1);
+  \draw [->] (stmt1) -- (stmt2);
+  
+  \draw [->] (stmt2) -- (if1);
+  \draw [->] (if1.east) -| node[right] {False} (stmt1f.north);
+  \draw [->] (if1.west) -| node[left] {True} (if2.north);
+  
+  \draw [->] (if2.east) -| node[right] {False} (stmt3t.north);
+  \draw [->] (if2.west) -| node[left] {True} (stmt1t.north);
+  \draw [->] (stmt1t) -- (stmt2t);
+  \draw [  ] (stmt3t) |- node [pos=0.5] (iff) {} (ifafter.south);
+  \draw [  ] (stmt2t) |- (iff.center);
+  
+  \draw [->] (stmt1f) -- (while);
+  \draw [->] (while) -- node [right] {True} (stmt2f);
+  \draw [->] (stmt2f.east) -| (rwhile.east) -- (while.east);
+  \draw [  ] (while.west) -- (lwhile.west) |-
+    node[left, pos=0.25] {False} (ifafter.south);
+  
+  \draw [->] (ifafter) -- (stmt3);
+  \draw [->] (stmt3) -- (stmt4);
+  \draw [->] (stmt4) -- (end);
+  
+\end{tikzpicture}
+\end{figure}
+
+\pagebreak
+
+
+
+\subsection{Minimal Hitting Sets}
+
+Discarded sets: red, \quad \quad Minimal hitting sets: green \\
+
+\begin{figure}[H]
+\centering
+\caption*{\raggedright (a) {\ttfamily\{s,o\},\{m,a\},\{a,s,i,g\},\{o,n,e\}}}
+\begin{tikzpicture}[
+  every node/.append style={
+    circ,
+    grow=down
+  },
+  every path/.append style={thick,->}
+]
+  
+  \node {}
+    [sibling distance=8cm]
+    child { node {s}
+      [sibling distance=4cm]
+      child { node {m}
+        [sibling distance=1cm]
+        child { node [setT] {o} }
+        child { node [setT] {n} }
+        child { node [setT] {e} }
+      }
+      child { node {a}
+        [sibling distance=1cm]
+        child { node [setX] {o} }
+        child { node [setT] {n} }
+        child { node [setT] {e} }
+      }
+    }
+    child { node {o}
+      [sibling distance=4cm]
+      child { node {m}
+        [sibling distance=1cm]
+        child { node [setX] {a} }
+        child { node [setX] {s} }
+        child { node [setT] {i} }
+        child { node [setT] {g} }
+      }
+      child { node [setT] {a} }
+    };
+
+\end{tikzpicture}
+\caption*{\raggedright Minimal hitting sets: {\ttfamily\{o,a\},\{s,m,o\},\{s,m,n\},\{s,m,e\},\{s,a,n\},\{s,a,e\},\{o,m,i\},\{o,m,g\}}}
+\end{figure}
+\vspace{-\floatsep}
+
+\begin{figure}[H]
+\centering
+\caption*{\raggedright (b) {\ttfamily\{t,u\},\{g,r,a,z\},\{a,s,u\},\{s,g,a\}}}
+\begin{tikzpicture}[
+  every node/.append style={
+    circ,
+    grow=down
+  },
+  every path/.append style={thick,->}
+]
+
+  \node {}
+    [sibling distance=75mm]
+    child { node {t}
+      [sibling distance=21mm]
+      child { node {g}
+        [sibling distance=7mm]
+        child { node [setX] {a} }
+        child { node [setT] {s} }
+        child { node [setX] {u} }
+      }
+      child { node {r}
+        [sibling distance=7mm]
+        child { node [setX] {a} }
+        child { node [setT] {s} }
+        child { node [setX] {u} }
+      }
+      child { node [setT] {a} }
+      child { node {z}
+        [sibling distance=7mm]
+        child { node [setX] {a} }
+        child { node [setT] {s} }
+        child { node [setX] {u} }
+      }
+    }
+    child { node {u}
+      [sibling distance=21mm]
+      child { node [setT] {g} }
+      child { node [setT] {r} }
+      child { node {a}
+        [sibling distance=7mm]
+        child { node [setT] {s} }
+        child { node [setX] {g} }
+        child { node [setX] {a} }
+      }
+      child { node {z}
+        [sibling distance=7mm]
+        child { node [setT] {s} }
+        child { node [setX] {g} }
+        child { node [setX] {a} }
+      }
+    };
+
+\end{tikzpicture}
+\caption*{\raggedright Minimal hitting sets: {\ttfamily\{t,a\},\{u,g\},\{u,r\},\{t,g,s\},\{t,r,s\},\{t,z,s\},\{u,a,s\},\{u,z,s\}}}
+\end{figure}
+\vspace{-\floatsep}
+
+\begin{figure}[H]
+\centering
+\caption*{\raggedright (c) {\ttfamily\{c,a\},\{b,d,a\},\{c,d,e,f\},\{c,e,j\}}}
+\begin{tikzpicture}[
+  every node/.append style={
+    circ,
+    grow=down
+  },
+  every path/.append style={thick,->}
+]
+  
+  \node {}
+    [sibling distance=8cm]
+    child { node {c}
+      [sibling distance=26mm]
+      child { node [setT] {b} }
+      child { node [setT] {d} }
+      child { node [setT] {a} }
+    }
+    child { node {a}
+      [sibling distance=2cm]
+      child { node [setX] {c} }
+      child { node {d}
+        [sibling distance=1cm]
+        child { node [setX] {c} }
+        child { node [setX] {e} }
+        child { node [setT] {j} }
+      }
+      child { node [setT] {e} }
+      child { node {f}
+        [sibling distance=1cm]
+        child { node [setX] {c} }
+        child { node [setX] {e} }
+        child { node [setT] {j} }
+      }
+    };
+
+\end{tikzpicture}
+\caption*{\raggedright Minimal hitting sets: {\ttfamily\{c,b\},\{c,d\},\{c,a\},\{a,e\},\{a,d,j\},\{a,f,j\}}}
+\end{figure}
+\pagebreak
+
+
+
+\subsection{Dynamic Slicing}
+
+Slicing criterion: \verb|({y=2,t=1}, 29|\textsuperscript{20}\verb|, {z})| \\
+
+\begin{figure}[H]
+\centering
+\setcounter{magicrownumbers}{0}
+\begin{tabular}{LVP}
+2  & z = 20 \\                                % z = 20
+3  & x = 5 \\                                 % x = 5
+4  & read(y) \\                               % y = 2
+5  & read(t) \\                               % t = 1
+6  & while (y<5) \\                           % true
+8  & y = y*2 \\                               % y = 4
+9  & z = z - (y+x) \\                         % z = 11
+6  & while (y<5) \\                           % true
+8  & y = y*2 \\                               % y = 8
+9  & z = z - (y+x) \\                         % z = -2
+6  & while (y<5)   	 & PR(6,F) = \{y,z\} \\   % false
+12 & if (x>t)        & PR(12,T) = \{x\} \\    % true
+14 & x = t*x \\                               % x = 5
+15 & while (z<0) \\                           % true
+17 & t = t+20 \\                              % t = 21
+18 & z = t+y \\                               % z = 29
+15 & while (z<0)     & PR(15,F) = \{t,z\} \\  % false
+21 & t = x*10 + z \\                          % t = 79
+28 & write(x) \\
+29 & write(t) \\
+\end{tabular}
+\caption*{Extended Execution Trace with Potentially Relevant Variables (PR)}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\caption*{Initial statement marked with red dot, rest of slice with black dot.}
+\setcounter{magicrownumbers}{0}
+\begin{tikzpicture}[
+    >=latex,thick,
+    /pgf/every decoration/.style={/tikz/sharp corners},
+    line join=round,line cap=round,
+  ]
+    \begin{scope}[start chain=1 going below,
+            node distance=1mm,
+            every node/.append style={on chain, scale=0.9,
+                minimum width=6cm, align=center},
+            ell/.append style={
+                execute at begin node=(,
+                execute at end node=)\textsuperscript{\rownumber}},
+        scale=0.9
+        ]
+        \node [ell, markF] (stmt01) {2.  z = 20};
+        \node [ell, markF] (stmt02) {3.  x = 5};
+        \node [ell, markF] (stmt03) {4.  read(y)};
+        \node [ell, markF] (stmt04) {5.  read(t)};
+        \node [ell, markF] (stmt05) {6.  while (y<5)};
+        \node [ell, markF] (stmt06) {8.  y = y*2};
+        \node [ell, markF] (stmt07) {9.  z = z - (y+x)};
+        \node [ell, markF] (stmt08) {6.  while (y<5)};
+        \node [ell, markF] (stmt09) {8.  y = y*2};
+        \node [ell, markF] (stmt10) {9.  z = z - (y+x)};
+        \node [ell, markF] (stmt11) {6.  while (y<5)};
+        \node [ell, markF] (stmt12) {12. if (x>t)};
+        \node [ell]        (stmt13) {14. x = t*x};
+        \node [ell, markF] (stmt14) {15. while (z<0)};
+        \node [ell, markF] (stmt15) {17. t = t+20};
+        \node [ell, markI] (stmt16) {18. z = t+y};
+        \node [ell, markF] (stmt17) {15. while (z<0)};
+        \node [ell]        (stmt18) {21. t = x*10 + z};
+        \node [ell]        (stmt19) {28. write(x)};
+        \node [ell]        (stmt20) {29. write(t)};
+        
+        \node {};
+        \node (legendctrl) {Control Dependency};
+        \node (legenddata) {Data Dependency};
+        \node (legendsymm) {Symmetric Dependency};
+        \node (legendpotd) {Potential Data Dependency};
+    \end{scope}
+    \node [left=of legendctrl] (p1) {};
+    \node [left=of legenddata] (p2) {};
+    \node [left=of legendsymm] (p3) {};
+    \node [left=of legendpotd] (p4) {};
+    
+    \begin{scope}[->,
+            decoration={pre length=6pt, post length=6pt},
+            rounded corners=2mm,
+            every path/.style=fuzzy
+        ]
+        % Control dependencies
+        % while 5
+        \draw [ctrl]  (stmt05.east)  to [bend left=80]   (stmt06.east);
+        \draw [ctrl]  (stmt05.east)  to [bend left=80]   (stmt07.east);
+        % while 8
+        \draw [ctrl]  (stmt08.east)  to [bend left=80]   (stmt09.east);
+        \draw [ctrl]  (stmt08.east)  to [bend left=80]   (stmt10.east);
+        % if 12
+        \draw [ctrl]  (stmt12.east)  to [bend left=80]   (stmt13.east);
+        \draw [ctrl]  (stmt12.east)  to [bend left=80]   (stmt13.east);
+        \draw [ctrl]  (stmt12.east)  to [bend left=80]   (stmt14.east);
+        \draw [ctrl]  (stmt12.east)  to [bend left=80]   (stmt17.east);
+        \draw [ctrl]  (stmt12.east)  to [bend left=80]   (stmt18.east);
+        % while 14
+        \draw [ctrl]  (stmt14.east)  to [bend left=80]   (stmt15.east);
+        \draw [ctrl]  (stmt14.east)  to [bend left=80]   (stmt16.east);
+        
+        % Data depencies
+        % z 1
+        \draw [data]  (stmt01.west)  to [bend right=80]  (stmt07.west);
+        % x 2
+        \draw [data]  (stmt02.west)  to [bend right=80]  (stmt07.west);
+        \draw [data]  (stmt02.west)  to [bend right=80]  (stmt10.west);
+        \draw [data]  (stmt02.west)  to [bend right=80]  (stmt12.west);
+        \draw [data]  (stmt02.west)  to [bend right=80]  (stmt13.west);
+        % y 3
+        \draw [data]  (stmt03.west)  to [bend right=80]  (stmt05.west);
+        \draw [data]  (stmt03.west)  to [bend right=80]  (stmt06.west);
+        % t 4
+        \draw [data]  (stmt04.west)  to [bend right=80]  (stmt12.west);
+        \draw [data]  (stmt04.west)  to [bend right=80]  (stmt13.west);
+        \draw [data]  (stmt04.west)  to [bend right=80]  (stmt15.west);
+        % y 6
+        \draw [data]  (stmt06.west)  to [bend right=80]  (stmt07.west);
+        \draw [data]  (stmt06.west)  to [bend right=80]  (stmt08.west);
+        \draw [data]  (stmt06.west)  to [bend right=80]  (stmt09.west);
+        % z 7
+        \draw [data]  (stmt07.west)  to [bend right=80]  (stmt10.west);
+        % y 9
+        \draw [data]  (stmt09.west)  to [bend right=80]  (stmt10.west);
+        \draw [data]  (stmt09.west)  to [bend right=80]  (stmt11.west);
+        \draw [data]  (stmt09.west)  to [bend right=80]  (stmt16.west);
+        % z 10
+        \draw [data]  (stmt10.west)  to [bend right=80]  (stmt14.west);
+        % x 13
+        \draw [data]  (stmt13.west)  to [bend right=80]  (stmt18.west);
+        \draw [data]  (stmt13.west)  to [bend right=80]  (stmt19.west);
+        % t 15
+        \draw [data]  (stmt15.west)  to [bend right=80]  (stmt16.west);
+        % z 16
+        \draw [data]  (stmt16.west)  to [bend right=80]  (stmt17.west);
+        \draw [data]  (stmt16.west)  to [bend right=80]  (stmt18.west);
+        % t 18
+        \draw [data]  (stmt18.west)  to [bend right=80]  (stmt20.west);
+        
+        % Symmetric Dependencies
+        % 6
+        \draw [symm]  (stmt05.east)  to [bend left=80]   (stmt08.east);
+        \draw [symm]  (stmt08.east)  to [bend left=80]   (stmt11.east);
+        % 15
+        \draw [symm]  (stmt14.east)  to [bend left=80]   (stmt17.east);
+        
+        % Potential Data Dependencies
+        % PR(6,FALSE)
+        % z
+        \draw [potd]  (stmt11.east)  to [bend left=80]   (stmt14.east);
+        % y
+        \draw [potd]  (stmt11.east)  to [bend left=80]   (stmt16.east);
+        % PR(12,TRUE)
+        % x
+        \draw [potd]  (stmt12.east)  to [bend left=80]   (stmt13.east);
+        % PR(15,FALSE)
+        % z
+        \draw [potd]  (stmt17.east)  to [bend left=80]   (stmt18.east);
+        
+        % Legend
+        \draw [ctrl]  (p1) -- (legendctrl);
+        \draw [data]  (p2) -- (legenddata);
+        \draw [symm]  (p3) -- (legendsymm);
+        \draw [potd]  (p4) -- (legendpotd);
+    \end{scope}
+\end{tikzpicture}
+\vspace{5mm}
+\caption*{Extended Execution Trace Graph with Slice marked}
+\vspace{-2mm}
+\caption*{Note: Dynamic (Terminal) and Relevant Slice are the same in this example}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\bgroup
+\setlength{\tabcolsep}{1.1mm}
+\setcounter{magicrownumbers}{0}
+\begin{tabular}{%
+  |>{\footnotesize}R >{\ttfamily\footnotesize}l%
+  |>{\footnotesize}c%
+  |>{\nodecounter{data}}m{26mm}%
+  |>{\nodecounter{ctrl}}l%
+  |>{\nodecounter{symm}}l%
+  |>{\nodecounter{potd}}l%
+  |*2{c|}%
+}
+\hline
+\gdef\rownumber{}%
+& \footnotesize\makecell{Extended\\Execution\\Trace} %
+& \footnotesize\makecell{Potential\\Relations} %
+& \footnotesize\makecell{Data\\Dependencies} %
+& \footnotesize\makecell{Control\\Dependencies} %
+& \footnotesize\makecell{Symmetric\\Dependencies} %
+& \footnotesize\makecell{Potential\\Dependencies} %
+& \footnotesize\makecell{Terminal\\Slice} %
+& \footnotesize\makecell{Relevant\\Slice} %
+\gdef\rownumber{\stepcounter{magicrownumbers}\arabic{magicrownumbers}} \\
+\hline
+2  & z = 20 & & & & & & x & x \\\hline
+3  & x = 5 & & & & & & x & x \\\hline
+4  & read(y) & & & & & & x & x \\\hline
+5  & read(t) & & & & & & x & x \\\hline
+6  & while(y<5) & & & & & & x & x \\\hline
+8  & y = y*2 & & & & & & x & x \\\hline
+9  & z = z-(y+x) & & & & & & x & x \\\hline
+6  & while(y<5) & & & & & & x & x \\\hline
+8  & y = y*2 & & & & & & x & x \\\hline
+9  & z = z-(y+x) & & & & & & x & x \\\hline
+6  & while(y<5)     & \makecell{PR(6,F)\\= \{y,z\}} & & & & & x & x \\\hline
+12 & if (x>t)       & \makecell{PR(12,T)\\= \{x\}} & & & & & x & x \\\hline
+14 & x = t*x & & & & & & & \\\hline
+15 & while(z<0) & & & & & & x & x \\\hline
+17 & t = t+20 & & & & & & x & x \\\hline
+18 & z = t+y & & & & & & x & x \\\hline
+15 & while(z<0)     & \makecell{PR(15,F)\\= \{t,z\}} & & & & & x & x \\\hline
+21 & t = x*10+z & & & & & & & \\\hline
+28 & write(x) & & & & & & & \\\hline
+29 & write(t) & & & & & & & \\\hline
+\end{tabular}
+\caption*{Dynamic (Terminal) and Relevant Slice}
+\egroup
+
+\begin{tikzpicture}[overlay, remember picture,
+  ->,
+  decoration={pre length=6pt, post length=6pt},
+  rounded corners=2mm,
+  every path/.style=fuzzy,
+  >=latex,thick,
+  /pgf/every decoration/.style={/tikz/sharp corners},
+  line join=round,line cap=round,
+]
+  % Data depencies
+  % z 1
+  \draw [data]  ([xshift=02mm]data01) -- ([xshift=02mm]data07);
+  % x 2
+  \draw [data]  ([xshift=18mm]data02) -- ([xshift=18mm]data07);
+  \draw [data]  ([xshift=20mm]data02) -- ([xshift=20mm]data10);
+  \draw [data]  ([xshift=22mm]data02) -- ([xshift=22mm]data12);
+  \draw [data]  ([xshift=24mm]data02) -- ([xshift=24mm]data13);
+  % y 3
+  \draw [data]  ([xshift=04mm]data03) -- ([xshift=04mm]data05);
+  \draw [data]  ([xshift=06mm]data03) -- ([xshift=06mm]data06);
+  % t 4
+  \draw [data]  ([xshift=08mm]data04) -- ([xshift=08mm]data12);
+  \draw [data]  ([xshift=10mm]data04) -- ([xshift=10mm]data13);
+  \draw [data]  ([xshift=12mm]data04) -- ([xshift=12mm]data15);
+  % y 6
+  \draw [data]  ([xshift=04mm]data06) -- ([xshift=04mm]data07);
+  \draw [data]  ([xshift=14mm]data06) -- ([xshift=14mm]data08);
+  \draw [data]  ([xshift=16mm]data06) -- ([xshift=16mm]data09);
+  % z 7
+  \draw [data]  ([xshift=06mm]data07) -- ([xshift=06mm]data10);
+  % y 9
+  \draw [data]  ([xshift=02mm]data09) -- ([xshift=02mm]data10);
+  \draw [data]  ([xshift=04mm]data09) -- ([xshift=04mm]data11);
+  \draw [data]  ([xshift=14mm]data09) -- ([xshift=14mm]data16);
+  % z 10
+  \draw [data]  ([xshift=16mm]data10) -- ([xshift=16mm]data14);
+  % x 13
+  \draw [data]  ([xshift=02mm]data13) -- ([xshift=02mm]data18);
+  \draw [data]  ([xshift=04mm]data13) -- ([xshift=04mm]data19);
+  % t 15
+  \draw [data]  ([xshift=06mm]data15) -- ([xshift=06mm]data16);
+  % z 16
+  \draw [data]  ([xshift=08mm]data16) -- ([xshift=08mm]data17);
+  \draw [data]  ([xshift=10mm]data16) -- ([xshift=10mm]data18);
+  % t 18
+  \draw [data]  ([xshift=06mm]data18) -- ([xshift=06mm]data20);
+  
+  % Control dependencies
+  % while 5
+  \draw [ctrl]  ([xshift=2mm]ctrl05) -- ([xshift=2mm]ctrl06);
+  \draw [ctrl]  ([xshift=4mm]ctrl05) -- ([xshift=4mm]ctrl07);
+  % while 8
+  \draw [ctrl]  ([xshift=2mm]ctrl08) -- ([xshift=2mm]ctrl09);
+  \draw [ctrl]  ([xshift=4mm]ctrl08) -- ([xshift=4mm]ctrl10);
+  % if 12
+  \draw [ctrl]  ([xshift=2mm]ctrl12) -- ([xshift=2mm]ctrl13);
+  \draw [ctrl]  ([xshift=4mm]ctrl12) -- ([xshift=4mm]ctrl13);
+  \draw [ctrl]  ([xshift=6mm]ctrl12) -- ([xshift=6mm]ctrl14);
+  \draw [ctrl]  ([xshift=8mm]ctrl12) -- ([xshift=8mm]ctrl17);
+  \draw [ctrl]  ([xshift=1cm]ctrl12) -- ([xshift=1cm]ctrl18);
+  % while 14
+  \draw [ctrl]  ([xshift=2mm]ctrl14) -- ([xshift=2mm]ctrl15);
+  \draw [ctrl]  ([xshift=4mm]ctrl14) -- ([xshift=4mm]ctrl16);
+  
+  % Symmetric Dependencies
+  % 6
+  \draw [symm]  ([xshift=2mm]symm05) -- ([xshift=2mm]symm08);
+  \draw [symm]  ([xshift=4mm]symm08) -- ([xshift=4mm]symm11);
+  % 15
+  \draw [symm]  ([xshift=2mm]symm14) -- ([xshift=2mm]symm17);
+  
+  % Potential Data Dependencies
+  % PR(6,FALSE)
+  % z
+  \draw [potd]  ([xshift=2mm]potd11) -- ([xshift=2mm]potd14);
+  % y
+  \draw [potd]  ([xshift=4mm]potd11) -- ([xshift=4mm]potd16);
+  % PR(12,TRUE)
+  % x
+  \draw [potd]  ([xshift=6mm]potd12) -- ([xshift=6mm]potd13);
+  % PR(15,FALSE)
+  % z
+  \draw [potd]  ([xshift=2mm]potd17) -- ([xshift=2mm]potd18);
+\end{tikzpicture}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\setcounter{magicrownumbers}{0}
+\begin{tabular}{NC}
+& {\bf begin} \\
+& \quad z = 20; \\
+& \quad x = 5; \\
+& \quad read( y ); \\
+& \quad read( t ); \\
+& \quad {\bf while}( y < 5 ) {\bf do} \\
+& \quad \quad {\bf begin} \\
+& \quad \quad \quad y = y * 2; \\
+& \quad \quad \quad z = z - (y + x); \\
+& \quad \quad {\bf end;} \\
+& \quad {\bf od;} \\
+& \quad {\bf if}( x < t ) {\bf then} \\
+& \quad \quad {\bf begin} \\
+& \quad \quad \quad {\bf while}( z < 0 ) {\bf do} \\
+& \quad \quad \quad \quad {\bf begin} \\
+& \quad \quad \quad \quad \quad t = t + 20; \\
+& \quad \quad \quad \quad \quad z = t + y; \\
+& \quad \quad \quad \quad {\bf end;} \\
+& \quad \quad \quad {\bf od;} \\
+& \quad \quad {\bf end;} \\
+& \quad {\bf fi;} \\
+& {\bf end}
+\end{tabular}
+\caption*{Example reduced to Slice}
+\end{figure}
+
+
+
+\section{Practical Part}
+
+Repo: \url{https://git-students.ist.tugraz.at/soma20/group-12}
+
+Slicer Project (for IntelliJ IDEA): \verb|submission1/Slicer|
+
+Executable File: \verb|submission1/Slicer/staticslicer_12.jar|
+
+Built using \verb|openjdk version "1.8.0_242"|
+
+
+\end{document}

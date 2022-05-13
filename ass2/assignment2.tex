@@ -1,0 +1,346 @@
+\documentclass[10pt, a4paper]{article}
+
+\usepackage{amssymb, amsmath}
+\usepackage[latin1]{inputenc}
+%\usepackage{ngerman}
+\usepackage[ngerman]{babel}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{alltt}
+\pagestyle{fancy}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{boldline}
+\usepackage{lscape}
+
+\setlength{\headheight}{12.4pt}
+\setlength{\headsep}{1.5\headheight}
+
+% Übungsblatt-Nummer eintragen
+\newcommand{\AssignmentNumber}{2}
+
+% Gruppen-Nummer eintragen
+\newcommand{\GroupNumber}{12}
+
+% 1. Person eintragen
+\newcommand{\FirstAuthor}{Hamedl}
+\newcommand{\FirstAuthorFirstName}{Tobias}
+\newcommand{\FirstAuthorMatnum}{11808141}
+
+% 2. Person eintragen
+\newcommand{\SecAuthor}{Joao}
+\newcommand{\SecAuthorFirstName}{Gerson Miguel}
+\newcommand{\SecAuthorMatnum}{11804202}
+
+% 3. Person eintragen
+\newcommand{\ThirdAuthor}{Khalil}
+\newcommand{\ThirdAuthorFirstName}{Mahmoud}
+\newcommand{\ThirdAuthorMatnum}{01651551}
+
+%4. Person eintragen
+\newcommand{\FourthAuthor}{Piber}
+\newcommand{\FourthAuthorFirstName}{Constantin}
+\newcommand{\FourthAuthorMatnum}{11921514}
+
+
+\newcommand{\AuthorFront}{{\normalsize
+\begin{tabular}{|c|c|c|} \hline 
+\textbf{Nachname} & \textbf{Vorname}       & \textbf{Matrikelnummer} \\ \hline \hline
+\FirstAuthor      & \FirstAuthorFirstName  & \FirstAuthorMatnum      \\ \hline
+\SecAuthor        & \SecAuthorFirstName    & \SecAuthorMatnum        \\ \hline
+\ThirdAuthor      & \ThirdAuthorFirstName  & \ThirdAuthorMatnum      \\ \hline
+\FourthAuthor     & \FourthAuthorFirstName & \FourthAuthorMatnum     \\ \hline
+\end{tabular}}}
+
+\author{\AuthorFront}
+\newcommand{\Author}{\FirstAuthorMatnum, \SecAuthorMatnum,
+                     \ThirdAuthorMatnum, \FourthAuthorMatnum}
+
+\date{} % Kein Datum angegeben
+\fancyfoot{} % Seitenzahl unten nicht anzeigen
+
+\lhead{Blatt 1}
+\chead{\Author}
+\rhead{Seite \thepage}
+
+\title{Software Maintenance SS 20\\Assignment \AssignmentNumber}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcounter{ale}
+\newcommand{\abc}{\item[\alph{ale})]\stepcounter{ale}}
+\newenvironment{liste}{\begin{itemize}}{\end{itemize}}
+\newcommand{\aliste}{\begin{liste} \setcounter{ale}{1}}
+\newcommand{\zliste}{\end{liste}}
+\newenvironment{abcliste}{\aliste}{\zliste}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\maketitle
+\begin{center}
+ GROUP \textless \GroupNumber \textgreater
+\end{center}
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[h!]
+\centering
+\def\arraystretch{2}
+\begin{tabular}{|l|l|l|c|c|c|c|}
+\hline
+\multicolumn{3}{|c|}{\textbf{Assignment}} & \textbf{max. points} & \textbf{received points} & \textbf{max. points} & \textbf{received points}  \\
+\hline
+\multirow{4}{*}{Theory}&2.1 & a & 2,5 &  & \multirow{4}{*}{10} & \\ \cline{2-5}
+&2.1 & b & 2,5 &  &  & \\ \cline{2-5}
+&2.2 & a & 2,0 &  &  & \\ \cline{2-5} 
+&2.2 & b & 3,0 &  &  & \\ \cline{2-5}
+\hline
+\multirow{3}{*}{Programming}&Backward Slicing& & 3,5 &  & \multirow{4}{*}{10} & \\ \cline{2-5}
+&Forward Slicing & & 3,5 &  &  & \\ \cline{2-5}
+&Slicing Tables & & 3,0 &  &  & \\ \cline{2-5}
+&Bug Report& & -10\% &  &  & \\ \cline{2-5}
+\hline
+\multicolumn{5}{|l|}{Total points}& 20 &\\
+\hline
+\end{tabular}
+\end{table}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Backward Slicing Template}
+\begin{table}[H]
+\center
+\def\arraystretch{1.2}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Nr} & \textbf{Def} & \textbf{Ref} &  \textbf{Gen} &  \textbf{Kill} &  \textbf{In} &  \textbf{Out} &  \textbf{inSlice} \\ \hlineB{3}
+2. & a & $\emptyset$ & $\emptyset$ & a & a & $\emptyset$ & T \\ \hline
+3. & b & $\emptyset$ & $\emptyset$ & b & a, b & a & T \\ \hline
+4. & c & a & a & c & a, b, c & a, b & T \\ \hline
+5. & d & a & a & d & a, b, c, d & a, b, c & T \\ \hline
+6. & $\emptyset$ & a, c & a, c & $\emptyset$ & a, b, c, d & a, b, c, d & T \\ \hline
+8. & c & c & c & c & a, b, c, d & a, b, c, d & T \\ \hline
+9. & $\emptyset$ & b, c & b, c & $\emptyset$ & a, b, c, d & a, b, c, d & T \\ \hline
+11. & d & a, c & a, c, d & d & a, b, c, d & a, b, c, d & T \\ \hline
+14. & $\emptyset$ & a, b & a, b & $\emptyset$ & a, b, c, d & a, b, c, d & T \\ \hline
+16. & b & a, c & a, c & b & a, b, c & a, c & T \\ \hline
+17. & d & $\emptyset$ & $\emptyset$ & d & a, b, c, d & a, b, c & T \\ \hline
+21. & d & $\emptyset$ & $\emptyset$ & d & a, b, c, d & a, b, c & T \\ \hline
+24. & a & b & b & a & a, b, c, d & b, c, d & T \\ \hline
+27. & res & a, d && res &&& F \\ \hline
+28. & $\emptyset$ & res &&&&& F \\ \hline
+\end{tabular}
+\end{table}
+Slice = \{2,3,4,5,6,8,9,11,14,16,17,21,24\}
+\section{Forward Slicing Template}
+\begin{table}[H]
+\center
+\def\arraystretch{1.2}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Nr} & \textbf{Def} & \textbf{Ref} &  \textbf{Gen} &  \textbf{Kill} &  \textbf{In} &  \textbf{Out} &  \textbf{inSlice} \\ \hlineB{3}
+2. & a & $\emptyset$ & $\emptyset$ & a & $\emptyset$ & $\emptyset$ & F \\ \hline
+3. & b & $\emptyset$ & b & b & $\emptyset$ & b & T \\ \hline
+4. & c & a & $\emptyset$ & c & b & b & F \\ \hline
+5. & d & a & $\emptyset$ & d & b & b & F \\ \hline
+6. & $\emptyset$ & a, c & $\emptyset$ & $\emptyset$ & a, b, c, d & a, b, c, d & T \\ \hline
+8. & c & c & c & c & a, b, c, d & a, b, c, d & T\\ \hline
+9. & $\emptyset$ & b, c & $\emptyset$ & $\emptyset$ & a, b, c, d & a, b, c, d & T \\ \hline
+11. & d & a, c & d & d & a, b, c, d & a, b, c, d & T\\ \hline
+14. & $\emptyset$ & a, b & $\emptyset$ & $\emptyset$ & a, b, c, d & a, b, c, d & T\\ \hline
+16. & b & a, c & b & b & a, b, c, d & a, b, c, d & T\\ \hline
+17. & d & $\emptyset$ & d & d & a, b, c, d & a, b, c, d & T\\ \hline
+21. & d & $\emptyset$ & d & d & a, b, c, d & a, b, c, d & T\\ \hline
+24. & a & b & a & a & a, b, c, d & a, b, c, d & T\\ \hline
+27. & res & a, d & res & res & a, b, c, d & res, a, b, c, d & T\\ \hline
+28. & $\emptyset$ & res & $\emptyset$ & $\emptyset$ & res, a, b, c, d & res, a, b, c, d & T\\ \hline
+\end{tabular}
+\end{table}
+Slice = \{3,6,8,9,11,14,16,17,21,24,27,28\}
+\section{Delta Debugging Templates}
+\subsection{ddmin2}
+\begin{table}[H]
+\def\arraystretch{1.2}
+\center
+\begin{tabular}{|c|c|l|c|c|c|c|p{1.3cm}|}
+	\hline
+	\textbf{Step} & \textbf{n} & \textbf{Subset/Complement} &   \textbf{Result} & \textbf{Rule} & \textbf{Action} \\ 
+	\hlineB{3}
+	0  & - & $\Delta$ = \verb+0123456789ABCDEFGHIJ+ & FAIL &&
+	ddmin2(0123456789ABCDEFGHIJ, 2) \\ \hline
+	
+	1  & 2 & $\Delta_1=$ \verb+0123456789          + = $\nabla_2$ & UNRES && \\
+	2  & 2 & $\Delta_2=$ \verb+          ABCDEFGHIJ+ = $\nabla_1$ & UNRES & (3) & ddmin2(0123456789ABCDEFGHIJ, 4) \\ \hline 
+	3  & 4 & $\Delta_1=$ \verb+01234                +& UNRES && \\
+	4  & 4 & $\Delta_2=$ \verb+     56789           +& UNRES && \\
+	5  & 4 & $\Delta_3=$ \verb+          ABCDE      +& UNRES && \\
+	6  & 4 & $\Delta_4=$ \verb+               FGHIJ +& PASS && \\
+	7  & 4 & $\nabla_1=$ \verb+     56789ABCDEFGHIJ +& UNRES && \\
+	8  & 4 & $\nabla_2=$ \verb+01234     ABCDEFGHIJ +& UNRES && \\
+	9  & 4 & $\nabla_3=$ \verb+0123456789     FGHIJ +& UNRES && \\
+	10 & 4 & $\nabla_4=$ \verb+0123456789ABCDE      +& FAIL & (2) & ddmin2(0123456789ABCDE, 3) \\ \hline
+	11  & 3 & $\Delta_1=$ \verb+01234                +& UNRES && \\
+	12  & 3 & $\Delta_2=$ \verb+     56789           +& UNRES && \\
+	13  & 3 & $\Delta_3=$ \verb+          ABCDE      +& UNRES && \\
+	14  & 3 & $\nabla_1=$ \verb+     56789ABCDE      +& UNRES && \\
+	15  & 3 & $\nabla_2=$ \verb+01234     ABCDE      +& UNRES && \\
+	16 & 3 & $\nabla_3=$ \verb+0123456789            +& UNRES & (3) & ddmin2(0123456789ABCDE, 6) \\ \hline
+	17  & 6 & $\Delta_1=$ \verb+012                  +& UNRES && \\
+	18  & 6 & $\Delta_2=$ \verb+   345               +& PASS && \\
+	19  & 6 & $\Delta_3=$ \verb+      678            +& UNRES && \\
+	20  & 6 & $\Delta_4=$ \verb+         9A          +& PASS && \\
+	21  & 6 & $\Delta_5=$ \verb+           BC        +& PASS && \\
+	22  & 6 & $\Delta_6=$ \verb+             DE      +& UNRES && \\
+	23  & 6 & $\nabla_1=$ \verb+   3456789ABCDE      +& UNRES && \\
+	24 & 6 & $\nabla_2=$ \verb+012    6789ABCDE      +& FAIL & (2) & ddmin2(0126789ABCDE, 5) \\ \hline
+	25  & 5 & $\Delta_1=$ \verb+012                  +& UNRES && \\
+	26  & 5 & $\Delta_2=$ \verb+   678               +& UNRES && \\
+	27  & 5 & $\Delta_3=$ \verb+      9A             +& PASS && \\
+	28  & 5 & $\Delta_4=$ \verb+        BC           +& PASS && \\
+	29  & 5 & $\Delta_5=$ \verb+          DE         +& UNRES && \\
+	30  & 5 & $\nabla_1=$ \verb+   6789ABCDE         +& UNRES && \\
+	31  & 5 & $\nabla_2=$ \verb+012   9ABCDE         +& UNRES && \\
+	32 & 5 & $\nabla_3=$ \verb+012678   BCDE         +& FAIL & (2) & ddmin2(012678BCDE, 4) \\ \hline
+	33  & 4 & $\Delta_1=$ \verb+012                  +& UNRES && \\
+	34  & 4 & $\Delta_2=$ \verb+   678               +& UNRES && \\
+	35  & 4 & $\Delta_3=$ \verb+      BC             +& PASS && \\
+	36  & 4 & $\Delta_4=$ \verb+        DE           +& UNRES && \\
+	37  & 4 & $\nabla_1=$ \verb+   678BCDE           +& UNRES && \\
+	38  & 4 & $\nabla_2=$ \verb+012   BCDE           +& UNRES && \\
+	39 & 4 & $\nabla_3=$ \verb+012678   DE           +& FAIL & (2) & ddmin2(012678DE, 3) \\ \hline
+	\end{tabular}
+\end{table}
+\begin{table}[H]
+\def\arraystretch{1.2}
+\center
+\begin{tabular}{|c|c|l|c|c|c|c|p{1.3cm}|}
+	\hline
+	\textbf{Step} & \textbf{n} & \textbf{Subset/Complement} &   \textbf{Result} & \textbf{Rule} & \textbf{Action} \\ 
+	\hlineB{3}
+  40  & 4 & $\Delta_1=$ \verb+012                  +& UNRES && \\
+	41  & 4 & $\Delta_2=$ \verb+   678               +& UNRES && \\
+	42  & 4 & $\Delta_3=$ \verb+      DE             +& UNRES && \\
+	43  & 4 & $\nabla_1=$ \verb+   678DE             +& UNRES && \\
+	44  & 4 & $\nabla_2=$ \verb+012   DE             +& UNRES && \\
+	45 & 4 & $\nabla_3=$ \verb+012678                +& UNRES & (3) & ddmin2(012678DE, 6) \\ \hline
+	46  & 4 & $\Delta_1=$ \verb+01                  +& UNRES && \\
+	47  & 4 & $\Delta_2=$ \verb+  26                +& PASS && \\
+	48  & 4 & $\Delta_3=$ \verb+    7               +& PASS && \\
+	49  & 4 & $\nabla_1=$ \verb+     8              +& UNRES && \\
+	50 & 4 & $\nabla_2=$ \verb+       D             +& FAIL & (1),(4) & ddmin2(D, 2) $\rightarrow$ return D \\
+	51  & 4 & $\nabla_3=$ \verb+        E            +& UNRES && \\ \hline
+	
+\end{tabular}
+\end{table}
+
+%\subsection{dd2}
+%\begin{landscape}
+\begin{landscape}
+\subsection{dd2}
+\setlength{\tabcolsep}{2.5pt}
+\def\arraystretch{1.2}
+\center
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+	\hline
+	\textbf{Step} & \textbf{n} & \textbf{$c_s$} & \textbf{$c_f$} & \textbf{$\Delta$} & \textbf{TC} & \textbf{Test Input} & \textbf{Result} & \textbf{Rule} & \textbf{Action} \\ 
+	\hlineB{3}
+			
+	1  &-& \verb+ -  +& \verb+0123456789ABCDEFGHIJ+ & \verb+0123456789ABCDEFGHIJ+ & $c_s$ & \verb+ -  + & PASS & & \\
+	2  &-& \verb+    +&             &             & $c_f$ & \verb+0123456789ABCDEFGHIJ+ & FAIL & & dd2(-, 0123456789ABCDEFGHIJJ, 2) \\ \hline
+			
+	3  & 2 & \verb+ -  +& \verb+0123456789ABCDEFGHIJ+  & \verb+0123456789ABCDEFGHIJ+ & $c_s' \cup \Delta_1 $ & \verb+0123456789          + & UNRES &  &  \\
+	4  & 2 & \verb+    +&  & & $c_s' \cup \Delta_2 $ & \verb+          ABCDEFGHIJ+ & UNRES &  &  \\
+	5  & 2 & \verb+    +&  & & $c_f' \backslash \Delta_1 $ & \verb+          ABCDEFGHIJ+ & UNRES &  &  \\
+	6  & 2 & \verb+ -  +&  & & $c_f' \backslash \Delta_2 $ & \verb+0123456789          + & UNRES & (5) & dd2(-, 0123456789ABCDEFGHIJ, 4) \\ \hline
+  7  & 4 & \verb+ -  +& \verb+0123456789ABCDEFGHIJ+  & \verb+0123456789ABCDEFGHIJ+ & $c_s' \cup \Delta_1 $ & \verb+01234               + & UNRES &  &  \\
+  8  & 4 & \verb+    +&  & & $c_s' \cup \Delta_2 $ & \verb+    5678            + & UNRES &  &  \\
+  9  & 4 & \verb+    +&  & & $c_s' \cup \Delta_3 $ & \verb+          ABCDE     + & UNRES &  &  \\
+  10  & 4 & \verb+    +&  & & $c_s' \cup \Delta_4 $ & \verb+               FGHIJ+ & UNRES & &  \\
+  11  & 4 & \verb+    +&  & & $c_f' \backslash \Delta_1 $ & \verb+     56789ABCDEFGHIJ+ & UNRES &  &  \\
+  12  & 4 & \verb+    +&  & & $c_f' \backslash \Delta_2 $ & \verb+01234     ABCDEFGHIJ+ & UNRES &  &  \\
+  13  & 4 & \verb+    +&  & & $c_f' \backslash \Delta_3 $ & \verb+0123456789     FGHIJ+ & UNRES &  &  \\
+  14  & 4 & \verb+    +&  & & $c_f' \backslash \Delta_4 $ & \verb+0123456789ABCDE     + & FAIL & (4) & dd2(-, 0123456789ABCDE, 3) \\ \hline
+  15  & 3 & \verb+ -  +& \verb+0123456789ABCDE+  & \verb+0123456789ABCDE+ & $c_s' \cup \Delta_1 $ & \verb+01234               + & UNRES &  &  \\
+  16  & 3 & \verb+    +&  & & $c_s' \cup \Delta_2 $ & \verb+    56789           + & UNRES &  &  \\
+  17  & 3 & \verb+    +&  & & $c_s' \cup \Delta_3 $ & \verb+          ABCDE     + & UNRES &  &  \\
+  18  & 3 & \verb+    +&  & & $c_f' \backslash \Delta_1 $ & \verb+     56789ABCDE     + & UNRES &  &  \\
+  19  & 3 & \verb+    +&  & & $c_f' \backslash \Delta_2 $ & \verb+01234     ABCDE     + & UNRES &  &  \\
+  20  & 3 & \verb+    +&  & & $c_f' \backslash \Delta_3 $ & \verb+0123456789           + & UNRES & (5) & dd2(-, 0123456789ABCDE, 6) \\ \hline
+  21  & 6 & \verb+ -  +& \verb+0123456789ABCDE+  & \verb+0123456789ABCDE+ & $c_s' \cup \Delta_1 $ & \verb+012                 + & UNRES &  &  \\
+  22  & 6 & \verb+    +&  & & $c_s' \cup \Delta_2 $ & \verb+  345               + & UNRES &  &  \\
+  23  & 6 & \verb+    +&  & & $c_s' \cup \Delta_3 $ & \verb+     678            + & UNRES &  &  \\
+  24  & 6 & \verb+    +&  & & $c_s' \cup \Delta_4 $ & \verb+        9A          + & UNRES &  &  \\
+  25  & 6 & \verb+    +&  & & $c_s' \cup \Delta_5 $ & \verb+          BC        + & UNRES &  &  \\
+  26  & 6 & \verb+    +&  & & $c_s' \cup \Delta_6 $ & \verb+            DE      + & UNRES &  &  \\ \hline
+\end{tabular}
+\end{landscape}
+\begin{landscape}
+\def\arraystretch{1.2}
+\center
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+	\hline
+	\textbf{Step} & \textbf{n} & \textbf{$c_s$} & \textbf{$c_f$} & \textbf{$\Delta$} & \textbf{TC} & \textbf{Test Input} & \textbf{Result} & \textbf{Rule} & \textbf{Action} \\ 
+	\hlineB{3}
+	
+	27  & 6 & \verb+    +&  & & $c_f' \backslash \Delta_1 $ & \verb+   3456789ABCDE     + & UNRES &  &  \\
+	28  & 6 & \verb+    +&  & & $c_f' \backslash \Delta_2 $ & \verb+012   6789ABCDE     + & FAIL & (4)  & dd2(-, 0126789ABCDE, 5)  \\
+	29  & 6 & \verb+    +&  & & $c_f' \backslash \Delta_3 $ & \verb+012345   9ABCDE     + & FAIL & (4)  &  \\
+	30  & 6 & \verb+    +&  & & $c_f' \backslash \Delta_4 $ & \verb+012345678  BCDE     + & UNRES &  &  \\
+	31  & 6 & \verb+    +&  & & $c_f' \backslash \Delta_5 $ & \verb+0123456789A  DE     + & FAIL & (4)  &  \\
+	32  & 6 & \verb+    +&  & & $c_f' \backslash \Delta_6 $ & \verb+0123456789ABC       + & UNRES &  &  \\ \hline
+	33  & 5 & \verb+ -  +& \verb+0126789ABCDE+  & \verb+0126789ABCDE+ & $c_s' \cup \Delta_1 $ & \verb+012                 + & UNRES &  &  \\
+  34  & 5 & \verb+    +&  & & $c_s' \cup \Delta_2 $ & \verb+   678            + & UNRES &  &  \\
+  35  & 5 & \verb+    +&  & & $c_s' \cup \Delta_3 $ & \verb+       9A         + & UNRES &  &  \\
+  36  & 5 & \verb+    +&  & & $c_s' \cup \Delta_4 $ & \verb+         BC       + & UNRES &  &  \\
+  37  & 5 & \verb+    +&  & & $c_s' \cup \Delta_5 $ & \verb+           DE     + & UNRES &  &  \\
+  38  & 5 & \verb+    +&  & & $c_f' \backslash \Delta_1 $ & \verb+   6789ABCDE     + & UNRES &  &  \\
+  39  & 5 & \verb+    +&  & & $c_f' \backslash \Delta_2 $ & \verb+012   9ABCDE     + & FAIL & (4)  & dd2(-, 0129ABCDE, 4) \\
+  40  & 5 & \verb+    +&  & & $c_f' \backslash \Delta_3 $ & \verb+012678  BCDE     + & UNRES &  &  \\
+  41  & 5 & \verb+    +&  & & $c_f' \backslash \Delta_4 $ & \verb+0126789A  DE     + & FAIL & (4)  &  \\
+  42  & 5 & \verb+    +&  & & $c_f' \backslash \Delta_5 $ & \verb+0126789ABC       + & UNRES &  &  \\ \hline
+  43  & 4 & \verb+ -  +& \verb+0129ABCDE+  & \verb+0129ABCDE+ & $c_s' \cup \Delta_1 $ & \verb+012               + & UNRES &  &  \\
+  44  & 4 & \verb+    +&  & & $c_s' \cup \Delta_2 $ & \verb+   9A            + & UNRES &  &  \\
+  45  & 4 & \verb+    +&  & & $c_s' \cup \Delta_3 $ & \verb+     BC          + & UNRES &  &  \\
+  46  & 4 & \verb+    +&  & & $c_s' \cup \Delta_4 $ & \verb+       DE        + & UNRES &  &  \\
+  47  & 4 & \verb+    +&  & & $c_f' \backslash \Delta_1 $ & \verb+   9ABCDE        + & UNRES &  &  \\
+  48  & 4 & \verb+    +&  & & $c_f' \backslash \Delta_2 $ & \verb+012  BCDE        + & UNRES &  &  \\
+  49  & 4 & \verb+    +&  & & $c_f' \backslash \Delta_3 $ & \verb+0129A  DE        + & FAIL & (4)& dd2(-, 0129ADE, 3)  \\
+  50  & 4 & \verb+    +&  & & $c_f' \backslash \Delta_4 $ & \verb+0129ABC          + & UNRES &  &  \\ \hline
+  51  & 3 & \verb+ -  +& \verb+0129ADE+  & \verb+0129ADE+ & $c_s' \cup \Delta_1 $ & \verb+012              + & UNRES &  &  \\
+  52  & 3 & \verb+    +&  & & $c_s' \cup \Delta_2 $ & \verb+   9A            + & UNRES &  &  \\
+  53  & 3 & \verb+    +&  & & $c_s' \cup \Delta_3 $ & \verb+     DE          + & UNRES &  &  \\
+  54  & 3 & \verb+    +&  & & $c_f' \backslash \Delta_1 $ & \verb+   9ADE          + & UNRES &  &  \\
+  55  & 3 & \verb+    +&  & & $c_f' \backslash \Delta_2 $ & \verb+012  DE          + & UNRES &  &  \\
+  56  & 3 & \verb+    +&  & & $c_f' \backslash \Delta_3 $ & \verb+0129A            + & UNRES & (5)& dd2(-, 0129ADE, 6)  \\ \hline
+  \end{tabular}
+\end{landscape}
+	\begin{landscape}
+\def\arraystretch{1.2}
+\center
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+	\hline
+	\textbf{Step} & \textbf{n} & \textbf{$c_s$} & \textbf{$c_f$} & \textbf{$\Delta$} & \textbf{TC} & \textbf{Test Input} & \textbf{Result} & \textbf{Rule} & \textbf{Action} \\ 
+	\hlineB{3}
+	
+	57  & 6 & \verb+ -  +& \verb+0129ADE+  & \verb+0129ADE+ & $c_s' \cup \Delta_1 $ & \verb+01          + & UNRES &  &  \\
+  58  & 6 & \verb+    +&  & & $c_s' \cup \Delta_2 $ & \verb+   2          + & UNRES &  &  \\
+  59  & 6 & \verb+    +&  & & $c_s' \cup \Delta_3 $ & \verb+    9         + & UNRES &  &  \\
+  60  & 6 & \verb+    +&  & & $c_s' \cup \Delta_4 $ & \verb+     A        + & UNRES &  &  \\
+  61  & 6 & \verb+    +&  & & $c_s' \cup \Delta_5 $ & \verb+      D       + & UNRES &  &  \\
+  62  & 6 & \verb+    +&  & & $c_s' \cup \Delta_6 $ & \verb+       E      + & UNRES &  &  \\
+  63  & 6 & \verb+    +&  & & $c_f' \backslash \Delta_1 $ & \verb+  29ADE     + & UNRES &  &  \\
+  64  & 6 & \verb+    +&  & & $c_f' \backslash \Delta_2 $ & \verb+01 9ADE     + & FAIL & (4) &  \\
+  65  & 6 & \verb+    +&  & & $c_f' \backslash \Delta_3 $ & \verb+012 ADE     + & UNRES &  & \\
+  66  & 6 & \verb+    +&  & & $c_f' \backslash \Delta_4 $ & \verb+0129 DE     + & FAIL & (4) &  \\
+  67  & 6 & \verb+    +&  & & $c_f' \backslash \Delta_5 $ & \verb+0129A E     + & UNRES &  &  \\
+  68  & 6 & \verb+    +&  & & $c_f' \backslash \Delta_6 $ & \verb+0129AD      + & PASS & (2) & dd2(0129AD, 0129ADE, 2) \\ \hline
+	
+	67  & 2 & \verb+0129AD+ & \verb+0129ADE+  & \verb+E+ &  & - & - & (6) & (0129AD, 0129ADE) \\ \hline						       	
+\end{tabular}
+\end{landscape}
+%\end{landscape}
+
+\end{document}
