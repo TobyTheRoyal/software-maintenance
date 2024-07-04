@@ -28,7 +28,7 @@ To build the project, run the following command:
 
 ```sh
 ant jar
-
+```
 This will generate an executable JAR file named `ProgramSlicer_<GroupNr>.jar`.
 
 To execute the program, use the command:
