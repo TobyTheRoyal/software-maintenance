@@ -35,11 +35,11 @@ To execute the program, use the command:
 
 ```sh
 java -jar ProgramSlicer_<GroupNr>.jar <input-file> <slicing-criterias>
-
+```
 For detailed testing, you can add the `deeptest` keyword to output the calculation tables:
 ```sh
 java -jar ProgramSlicer_<GroupNr>.jar <input-file> <slicing-criterias> deeptest
-
+```
 ## Testing
 To test your implementation, use the provided test cases in the testdata/ folder. Ensure that your implementation meets the output specifications by using the methods in IOHandler.java and FPANode.java.
 
